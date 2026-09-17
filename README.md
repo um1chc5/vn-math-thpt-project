@@ -52,7 +52,7 @@ Sau đó: “Ra đề …” — PDF trong `src/output/`.
 ## CLI (sau khi onboarding đã có loại đề)
 
 ```bash
-python3 src/scripts/generate_exam.py \
+python3 src/scripts/generate/generate_exam.py \
   --lop 12 \
   --loai-de <slug-da-tao> \
   --mode ca-hai \
@@ -68,7 +68,7 @@ src/docs/            hướng dẫn + onboarding
 src/configs/         profile.yaml, school.yaml, exam-types/
 src/question-bank/   câu hỏi JSONL
 src/templates/       exam.cls, papers, items
-src/scripts/
-src/tests/
+src/scripts/         tools (see scripts/README.md — grow by need)
+src/tests/           mirrors scripts when split
 src/output/          PDF đã sinh
 ```

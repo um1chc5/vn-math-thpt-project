@@ -16,13 +16,17 @@ Read details only when needed:
 
 Skills: [onboarding-teacher](skills/onboarding-teacher/SKILL.md), [checking-setup](skills/checking-setup/SKILL.md), [ingesting-question](skills/ingesting-question/SKILL.md), [generating-exam](skills/generating-exam/SKILL.md)
 
+## Scripts / tests
+
+Principles + predicted cases: [src/scripts/README.md](src/scripts/README.md). Do not invent empty script folders ahead of need.
+
 ## Language
 
 Speak Vietnamese with the teacher unless they write English. Keep questions short.
 
 ## Never dump a command and walk away
 
-If TeX/Python is missing: **ask permission**, then run the install (`src/docs/setup/`). Same for `pip install -r requirements.txt` and `src/scripts/generate_exam.py`.
+If TeX/Python is missing: **ask permission**, then run the install (`src/docs/setup/`). Same for `pip install -r requirements.txt` and `src/scripts/generate/generate_exam.py`.
 
 After a đề is built, reply with the **PDF path**. Show LaTeX only if they ask or compile failed.
 

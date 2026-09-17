@@ -14,13 +14,20 @@ Add a new **paper** when the exam *shape* changes (THPT QG 3 phần vs one list)
 Add a new **item** when the *question UI* changes (MCQ vs short answer).  
 Do not fork `exam.cls` for that — only if the header/page geometry itself changes (e.g. two-column).
 
+Header styles in `exam.cls` (set via exam-type `header_style`):
+
+| Style | When |
+|-------|------|
+| `default` | Gia sư / phiếu / đề trường thông thường |
+| `thpt-qg` | Header kiểu kỳ thi TN THPT (Bộ GDĐT + mã đề) |
+
 Onboarding **Khác** may paste LaTeX into these layers; keep 4-choice answers in one row unless they ask for a 2×2 grid.
 
 ## Agent-authored LaTeX and helper scripts
 
 Complex questions may include TikZ geometry, variation tables, custom tables, or external images directly in `question_latex`. Prefer storing that LaTeX with the question so it can be reused.
 
-Create a helper under `src/scripts/` only when the operation is repeatable (for example, generating a family of diagrams or importing many questions). For a one-off question, write the LaTeX directly instead of adding a one-use script.
+Create a helper under `src/scripts/` only when the operation is repeatable. Prefer grouping by role when a second similar tool appears (see `src/scripts/README.md`). For a one-off question, write the LaTeX directly instead of adding a one-use script.
 
 After PDF review, fix the owning source and regenerate:
 

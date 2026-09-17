@@ -27,7 +27,7 @@ Jinja is that step: a **text** template engine. Web apps use it for HTML; we use
 
 - `\begin{question} … \end{question}` is repeated with `{% for q in questions %}`
 - đề vs đáp án is `{% if show_answers %}` — no duplicated Python string soup
-- teachers can edit `src/templates/papers/` and `src/templates/items/` without touching `src/scripts/generate_exam.py`
+- teachers can edit `src/templates/papers/` and `src/templates/items/` without touching `src/scripts/generate/generate_exam.py`
 
 It is **not** a web renderer. Nothing is served in a browser.
 

@@ -10,6 +10,8 @@
 \grade{{ '{' ~ grade ~ '}' }}
 \duration{{ '{' ~ duration ~ '}' }}
 \examdate{{ '{' ~ examdate ~ '}' }}
+\headerstyle{{ '{' ~ (header_style | default('default')) ~ '}' }}
+\made{{ '{' ~ (ma_de | default('')) ~ '}' }}
 \setquestiontotal{ {{ questions|length }} }
 {% if answerkey %}
 \answerkeytrue
@@ -25,10 +27,13 @@
 {% if q._item != ns.shown %}
 {% if q._item == 'trac-nghiem' %}
 \section*{Phần I. Trắc nghiệm nhiều lựa chọn}
+{\footnotesize Thí sinh trả lời từ câu 1 đến hết phần này. Mỗi câu chọn một phương án.}
 {% elif q._item == 'dung-sai' %}
 \section*{Phần II. Đúng / sai}
+{\footnotesize Mỗi ý a), b), c), d) ở mỗi câu hỏi, thí sinh chọn đúng hoặc sai.}
 {% elif q._item == 'tra-loi-ngan' %}
 \section*{Phần III. Trả lời ngắn}
+{\footnotesize Thí sinh tô đáp án tương ứng với kết quả của mình.}
 {% endif %}
 {% set ns.shown = q._item %}
 {% endif %}

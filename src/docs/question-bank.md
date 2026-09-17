@@ -1,6 +1,8 @@
 # Question JSONL (gợi ý)
 
-Cây folder **không cố định** — chọn ở [onboarding.md](onboarding.md) §3. File có thể là `lop12/….jsonl`, `chuyen-de/….jsonl`, hoặc một `bank.jsonl`.
+Cây folder **không cố định** — chọn ở [onboarding.md](onboarding.md) §3. File có thể là `lop12/….jsonl`, `thpt/md0105/questions.jsonl`, hoặc một `bank.jsonl`.
+
+Exam-type YAML có thể gắn gói bằng `bank_paths: [thpt/md0105]` (chỉ load JSONL trong các path đó).
 
 Một dòng = một object. Field gợi ý (thêm/bớt sau onboarding):
 

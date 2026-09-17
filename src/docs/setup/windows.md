@@ -37,7 +37,7 @@ Full TeX Live is several GB; MiKTeX is usually enough for this repo.
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python src\scripts\generate_exam.py --help
+python src\scripts\generate\generate_exam.py --help
 ```
 
 If execution policy blocks the venv:

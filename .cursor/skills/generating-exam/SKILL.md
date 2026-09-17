@@ -10,7 +10,7 @@ If `src/configs/profile.yaml` is not `completed: true`, run `onboarding-teacher`
 `--loai-de` must be a file that **exists** in `src/configs/exam-types/`. If they name a new type, write the YAML (see onboarding §2) then generate.
 
 ```bash
-python3 src/scripts/generate_exam.py \
+python3 src/scripts/generate/generate_exam.py \
   --lop 12 \
   --loai-de <slug> \
   --mode ca-hai \

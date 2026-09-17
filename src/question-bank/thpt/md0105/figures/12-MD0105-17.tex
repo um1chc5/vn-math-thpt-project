@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=1.6, every node/.style={circle, draw, inner sep=1.5pt, fill=white, font=\bfseries}]
+    \coordinate (A) at (0,2);
+    \coordinate (B) at (-1,0);
+    \coordinate (C) at (1,0);
+    \coordinate (M) at ($(A)!0.5!(B)$);
+    \coordinate (N) at ($(B)!0.5!(C)$);
+    \coordinate (P) at ($(A)!0.5!(C)$);
+    \draw (A)--(M)--(B)--(N)--(C) --(P)--cycle;
+    \node at (A) {A};
+    \node at (B) {B};
+    \node at (C) {C};
+    \node at (M) {M};
+    \node at (N) {N};
+    \node at (P) {P};
+\end{tikzpicture}

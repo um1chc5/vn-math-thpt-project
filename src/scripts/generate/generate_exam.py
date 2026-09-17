@@ -17,6 +17,11 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+_SCRIPTS = Path(__file__).resolve().parent.parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+from _paths import project_root, src_dir  # noqa: E402
+
 try:
     import yaml
 except ImportError:  # pragma: no cover
@@ -60,15 +65,6 @@ MUC_DO_LABELS = {
 }
 
 
-def project_root() -> Path:
-    # src/scripts/generate_exam.py → repo root
-    return Path(__file__).resolve().parent.parent.parent
-
-
-def src_dir(root: Path | None = None) -> Path:
-    return (root or project_root()) / "src"
-
-
 def _nfc(s: str) -> str:
     return unicodedata.normalize("NFC", s).strip()
 
@@ -99,13 +95,31 @@ def load_questions(
     bank_dir: Path,
     lop: str,
     chuong_filters: list[str] | None = None,
+    bank_paths: list[str] | None = None,
 ) -> list[dict]:
-    lop_dir = bank_dir / f"lop{lop}"
-    if not lop_dir.is_dir():
-        raise FileNotFoundError(f"Không tìm thấy ngân hàng lớp {lop}: {lop_dir}")
+    """Load JSONL from lop{N}/ or from explicit bank_paths (relative to bank_dir)."""
+    roots: list[Path] = []
+    if bank_paths:
+        for rel in bank_paths:
+            path = bank_dir / str(rel)
+            if not path.exists():
+                raise FileNotFoundError(f"Không tìm thấy bank path: {path}")
+            roots.append(path)
+    else:
+        lop_dir = bank_dir / f"lop{lop}"
+        if not lop_dir.is_dir():
+            raise FileNotFoundError(f"Không tìm thấy ngân hàng lớp {lop}: {lop_dir}")
+        roots.append(lop_dir)
+
+    jsonl_files: list[Path] = []
+    for root in roots:
+        if root.is_file() and root.suffix == ".jsonl":
+            jsonl_files.append(root)
+        else:
+            jsonl_files.extend(sorted(root.rglob("*.jsonl")))
 
     questions: list[dict] = []
-    for path in sorted(lop_dir.glob("*.jsonl")):
+    for path in jsonl_files:
         for lineno, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             line = raw.strip()
             if not line or line.startswith("#"):
@@ -114,6 +128,8 @@ def load_questions(
                 item = json.loads(line)
             except json.JSONDecodeError as exc:
                 raise ValueError(f"JSONL lỗi tại {path.name}:{lineno}: {exc}") from exc
+            if str(item.get("lop", lop)) != str(lop):
+                continue
             item["_source"] = path.stem
             if chuong_filters and not _matches_chuong(
                 str(item.get("lop", lop)),
@@ -213,6 +229,98 @@ def select_questions(
 
     selected.sort(key=lambda q: MUC_DO_ORDER.index(q["muc_do"]) if q.get("muc_do") in MUC_DO_ORDER else 99)
     return selected
+
+
+def _question_kieu(q: dict, fallback: str = "tu-luan") -> str:
+    return _normalize_item_style(str(q.get("kieu_cau") or fallback), fallback)
+
+
+def select_questions_by_sections(
+    questions: list[dict],
+    sections: list[dict],
+    seed: int | None = None,
+    muc_do_filter: list[str] | None = None,
+    keep_order: bool = False,
+) -> list[dict]:
+    """Pick questions per section (kieu_cau + so_cau). Preserve section order."""
+    pool = filter_muc_do(questions, muc_do_filter)
+    rng = random.Random(seed)
+    by_kieu: dict[str, list[dict]] = defaultdict(list)
+    for q in pool:
+        by_kieu[_question_kieu(q)].append(q)
+    for bucket in by_kieu.values():
+        if not keep_order:
+            rng.shuffle(bucket)
+        else:
+            bucket.sort(key=lambda q: str(q.get("id", "")))
+
+    selected: list[dict] = []
+    used_ids: set[str] = set()
+    for section in sections:
+        kieu = _normalize_item_style(str(section.get("kieu_cau") or section.get("item_style") or "tu-luan"))
+        need = int(section.get("so_cau") or 0)
+        if need < 1:
+            continue
+        bucket = [q for q in by_kieu.get(kieu, []) if str(q.get("id", id(q))) not in used_ids]
+        if len(bucket) < need:
+            raise ValueError(
+                f"Không đủ câu dạng {kieu} (cần {need}, còn {len(bucket)})."
+            )
+        take = bucket[:need]
+        for q in take:
+            used_ids.add(str(q.get("id", id(q))))
+            row = dict(q)
+            row["kieu_cau"] = kieu
+            selected.append(row)
+    return selected
+
+
+def normalize_sections(raw: object) -> list[dict]:
+    if not isinstance(raw, list):
+        return []
+    sections: list[dict] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        kieu = item.get("kieu_cau") or item.get("item_style")
+        so_cau = item.get("so_cau")
+        if kieu is None or so_cau is None:
+            continue
+        sections.append(
+            {
+                "kieu_cau": _normalize_item_style(str(kieu)),
+                "so_cau": int(so_cau),
+            }
+        )
+    return sections
+
+
+def resolve_external_latex(questions: list[dict], bank_dir: Path, root: Path | None = None) -> list[dict]:
+    """Load question_file / loi_giai_file / answer_file relative to bank_dir or project src."""
+    root = root or project_root()
+    resolved: list[dict] = []
+    for q in questions:
+        row = dict(q)
+        for field, key in (
+            ("question_file", "question_latex"),
+            ("loi_giai_file", "loi_giai_latex"),
+            ("answer_file", "answer_latex"),
+        ):
+            rel = row.get(field)
+            if not rel:
+                continue
+            path = Path(str(rel))
+            candidates = [
+                bank_dir / path,
+                src_dir(root) / path,
+                root / path,
+            ]
+            found = next((p for p in candidates if p.is_file()), None)
+            if found is None:
+                raise FileNotFoundError(f"Không thấy {field}: {rel}")
+            row[key] = found.read_text(encoding="utf-8").strip()
+        resolved.append(row)
+    return resolved
 
 
 def load_yaml(path: Path) -> dict:
@@ -325,11 +433,14 @@ def render_exam_tex(
     )
 
 
-def compile_tex(tex_path: Path, templates_dir: Path, out_dir: Path) -> Path:
+def compile_tex(tex_path: Path, templates_dir: Path, out_dir: Path, bank_dir: Path | None = None) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     env = os.environ.copy()
-    texinputs = str(templates_dir.resolve()) + "//:" + env.get("TEXINPUTS", "")
-    env["TEXINPUTS"] = texinputs
+    parts = [str(templates_dir.resolve()) + "//"]
+    if bank_dir is not None:
+        parts.append(str(bank_dir.resolve()) + "//")
+    parts.append(env.get("TEXINPUTS", ""))
+    env["TEXINPUTS"] = ":".join(parts)
     cmd = [
         "latexmk",
         "-xelatex",
@@ -384,7 +495,12 @@ def write_and_maybe_compile(
     )
     tex_path.write_text(tex, encoding="utf-8")
     if do_compile:
-        compile_tex(tex_path, src_dir(root) / "templates", dest)
+        compile_tex(
+            tex_path,
+            src_dir(root) / "templates",
+            dest,
+            bank_dir=src_dir(root) / "question-bank",
+        )
     return tex_path
 
 
@@ -457,39 +573,68 @@ def main(argv: list[str] | None = None) -> int:
     profile: dict = load_exam_type(root, args.loai_de) if args.loai_de else {}
 
     so_cau = args.so_cau if args.so_cau is not None else profile.get("so_cau")
+    sections = normalize_sections(profile.get("sections"))
+    if sections:
+        so_cau = sum(int(s["so_cau"]) for s in sections)
     if not so_cau:
-        raise ValueError("Cần --so-cau, hoặc --loai-de có trường so_cau.")
+        raise ValueError("Cần --so-cau, hoặc --loai-de có trường so_cau / sections.")
 
     ty_le_text = args.ty_le or profile.get("ty_le")
     ty_le = parse_ty_le(str(ty_le_text)) if ty_le_text else None
     tieu_de = args.tieu_de or profile.get("tieu_de") or "ĐỀ KIỂM TRA"
     thoi_gian = args.thoi_gian or profile.get("thoi_gian") or "90 phút"
-    truong = _nonempty(args.truong, school.get("truong"))
+    truong = _nonempty(args.truong, profile.get("school"), school.get("truong"))
     teacher = _nonempty(tutor.get("ho_ten_gv"), school.get("ho_ten_gv"))
-    so_gd = _nonempty(args.so_gd, school.get("so_gd"))
+    so_gd = _nonempty(args.so_gd, profile.get("department"), school.get("so_gd"))
     mon = _nonempty(args.mon, school.get("mon"), tutor.get("mon"), default="Toán")
+    header_style = _nonempty(profile.get("header_style"), school.get("header_style"), default="default")
+    ma_de = _nonempty(profile.get("ma_de"), default="")
 
-    questions = load_questions(bank_dir, args.lop, args.chuong)
-    selected = select_questions(
-        questions,
-        so_cau=int(so_cau),
-        seed=args.seed,
-        ty_le=ty_le,
-        muc_do_filter=args.muc_do,
+    bank_paths_raw = profile.get("bank_paths") or profile.get("bank_path")
+    if isinstance(bank_paths_raw, str):
+        bank_paths = [bank_paths_raw]
+    elif isinstance(bank_paths_raw, list):
+        bank_paths = [str(p) for p in bank_paths_raw]
+    else:
+        bank_paths = None
+
+    questions = resolve_external_latex(
+        load_questions(bank_dir, args.lop, args.chuong, bank_paths=bank_paths),
+        bank_dir,
+        root,
     )
+    if sections:
+        selected = select_questions_by_sections(
+            questions,
+            sections=sections,
+            seed=args.seed,
+            muc_do_filter=args.muc_do,
+            keep_order=bool(profile.get("keep_order")),
+        )
+    else:
+        selected = select_questions(
+            questions,
+            so_cau=int(so_cau),
+            seed=args.seed,
+            ty_le=ty_le,
+            muc_do_filter=args.muc_do,
+        )
 
     out_dir = output_dir_for(root, args.lop, args.loai_de, args.output_name)
+    topic = "" if header_style == "thpt-qg" else topic_label(selected)
     meta_base = {
         "school": _escape_meta(str(truong)),
         "department": _escape_meta(str(so_gd)),
-        "teacher": _escape_meta(str(teacher)),
-        "topic": _escape_meta(topic_label(selected)),
+        "teacher": "" if header_style == "thpt-qg" else _escape_meta(str(teacher)),
+        "topic": _escape_meta(topic),
         "subject": _escape_meta(str(mon)),
         "grade": args.lop,
         "duration": _escape_meta(str(thoi_gian)),
         "examdate": _escape_meta(args.ngay or _today()),
         "paper": profile.get("paper"),
         "item_style": profile.get("item_style", "tu-luan"),
+        "header_style": header_style,
+        "ma_de": _escape_meta(str(ma_de)),
     }
 
     jobs: list[tuple[str, str, bool, bool]] = []

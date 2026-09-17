@@ -16,6 +16,8 @@
 \RequirePackage{enumitem}
 \RequirePackage{array,tabularx}
 \RequirePackage{setspace}
+\RequirePackage{tikz}
+\usetikzlibrary{calc,patterns,intersections,arrows.meta}
 
 % Vietnamese text: Times New Roman on school machines, Liberation Serif on Linux.
 \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
@@ -63,6 +65,8 @@
 \newcommand{\@grade}{}
 \newcommand{\@duration}{90 phút}
 \newcommand{\@examdate}{}
+\newcommand{\@headerstyle}{default}
+\newcommand{\@made}{}
 \newcommand{\school}[1]{\renewcommand{\@school}{#1}}
 \newcommand{\department}[1]{\renewcommand{\@department}{#1}}
 \newcommand{\teacher}[1]{\renewcommand{\@teacher}{#1}}
@@ -72,6 +76,8 @@
 \newcommand{\grade}[1]{\renewcommand{\@grade}{#1}}
 \newcommand{\duration}[1]{\renewcommand{\@duration}{#1}}
 \newcommand{\examdate}[1]{\renewcommand{\@examdate}{#1}}
+\newcommand{\headerstyle}[1]{\def\@headerstyle{#1}}
+\newcommand{\made}[1]{\def\@made{#1}}
 
 % Answer-key toggle: \answerkeytrue / \answerkeyfalse
 \newif\ifanswerkey
@@ -83,8 +89,7 @@
   \edef\@examchk{#1}%
   \ifx\@examchk\@examblank #2\else #3\fi
 }
-\newcommand{\makeheader}{%
-  \thispagestyle{plain}%
+\newcommand{\makeheader@default}{%
   \ifexamblank{\@department}{%
     \ifexamblank{\@school}{}{%
       \noindent{\centering\fontsize{11}{13}\selectfont\bfseries\@school\par}%
@@ -126,6 +131,46 @@
       {\footnotesize Giáo viên: \@teacher}%
     }
   \end{tabularx}
+}
+\newcommand{\makeheader@thptqg}{%
+  \noindent
+  \begin{minipage}[t]{0.34\textwidth}
+    \centering
+    {\footnotesize\bfseries
+      \ifexamblank{\@department}{BỘ GIÁO DỤC VÀ ĐÀO TẠO}{\@department}\\[0.15em]
+      \ifexamblank{\@school}{ĐỀ THI CHÍNH THỨC}{\@school}\\[0.15em]
+    }
+    {\footnotesize\textit{(Đề thi gồm \arabic{questiontotal} câu)}}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.62\textwidth}
+    \centering
+    {\footnotesize\bfseries \@examtitle}\\[0.12em]
+    {\footnotesize\bfseries Môn thi: \@subject}\\[0.12em]
+    {\footnotesize\textit{Thời gian làm bài: \@duration, không kể thời gian phát đề}}
+  \end{minipage}
+
+  \vspace{0.45em}
+  \noindent
+  \begin{minipage}[t]{0.62\textwidth}
+    \textbf{Họ và tên thí sinh:} \dotfill\\[0.35em]
+    \textbf{Số báo danh:} \dotfill
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.34\textwidth}
+    \raggedleft
+    \ifexamblank{\@made}{}{%
+      \fbox{\textbf{Mã đề: \@made}}%
+    }
+  \end{minipage}
+}
+\newcommand{\makeheader}{%
+  \thispagestyle{plain}%
+  \edef\@hschecka{\@headerstyle}%
+  \edef\@hscheckb{thpt-qg}%
+  \ifx\@hschecka\@hscheckb
+    \makeheader@thptqg
+  \else
+    \makeheader@default
+  \fi
 
   \ifanswerkey
     \vspace{0.3em}

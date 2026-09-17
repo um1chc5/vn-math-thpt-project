@@ -1,0 +1,15 @@
+\begin{tikzpicture}[line join=round, line cap=round,>=stealth,thick,scale=0.4]
+\tikzset{every node/.style={scale=0.7}}
+\draw[->] (-4.1,0)--(3.1,0) node[below left] {$x$};
+\draw[->] (0,-2.1)--(0,6.1) node[below left] {$y$};
+\draw (0,0) node [below right] {$O$};
+\draw[thin] (-1,1pt)--(-1,-1pt) node [below left] {$-1$};
+\draw[thin] (1pt,2)--(-1pt,2) node [above right] {$2$};
+\draw[dashed,thin] (-0.99,-2)--(-0.99,6);
+\begin{scope}
+\clip (-4,-2) rectangle (3,6);
+\draw[samples=200,domain=-4:-1.01,smooth,variable=\x] plot (\x,{(2*(\x)+1)/(1*(\x)+1)});
+\draw[samples=200,domain=-0.99:3,smooth,variable=\x] plot (\x,{(2*(\x)+1)/(1*(\x)+1)});
+\draw[dashed,thin] (-4,2/1)--(3,2/1);
+\end{scope}
+\end{tikzpicture}

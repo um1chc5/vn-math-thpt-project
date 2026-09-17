@@ -1,7 +1,18 @@
 \begin{question}
 {{ q.question_latex }}
+{% if q.get('statements') %}
+\par\vspace{0.15em}
+{\small\textit{Với mỗi ý a), b), c), d), chọn đúng hoặc sai.}}
+\par\vspace{0.1em}
+\begin{enumerate}[label=\textbf{\alph*)}, leftmargin=1.6em, itemsep=0.2em, topsep=0.2em]
+{% for s in q.statements %}
+\item {{ s }}
+{% endfor %}
+\end{enumerate}
+{% else %}
 \par\vspace{0.2em}
 {\small\textit{Với mỗi ý a, b, c, d, chọn đúng hoặc sai.}}
+{% endif %}
 \end{question}
 {% if show_answers %}
 \begin{dapan}

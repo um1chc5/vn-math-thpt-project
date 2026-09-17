@@ -3,16 +3,12 @@
 from __future__ import annotations
 
 import json
-import sys
 from datetime import date
 from pathlib import Path
 
 import pytest
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
-sys.path.insert(0, str(SCRIPTS))
-
-import generate_exam as ge  # noqa: E402
+import generate_exam as ge
 
 
 def _q(**kwargs) -> dict:
@@ -71,6 +67,23 @@ def bank(tmp_path: Path) -> Path:
         ],
     )
     return tmp_path
+
+
+def test_load_questions_bank_paths(tmp_path: Path) -> None:
+    pack = tmp_path / "thpt" / "md0105"
+    _write_jsonl(
+        pack / "questions.jsonl",
+        [
+            _q(id="12-MD-001", lop="12", chuong="Tích phân"),
+            _q(id="11-MD-001", lop="11", chuong="Đạo hàm"),
+        ],
+    )
+    _write_jsonl(
+        tmp_path / "lop12" / "other.jsonl",
+        [_q(id="12-OTHER-001", lop="12", chuong="Số phức")],
+    )
+    qs = ge.load_questions(tmp_path, "12", bank_paths=["thpt/md0105"])
+    assert [q["id"] for q in qs] == ["12-MD-001"]
 
 
 def test_load_questions_filters_by_lop(bank: Path) -> None:
@@ -159,7 +172,7 @@ def test_render_exam_tex_de_thi_omits_answers(tmp_path: Path) -> None:
     templates = tmp_path / "templates"
     templates.mkdir()
     # Point renderer at real project templates via copy of exam.tex.j2
-    src = Path(__file__).resolve().parents[1] / "templates" / "exam.tex.j2"
+    src = Path(__file__).resolve().parents[2] / "templates" / "exam.tex.j2"
     templates.joinpath("exam.tex.j2").write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
 
     tex = ge.render_exam_tex(
@@ -189,7 +202,7 @@ def test_render_exam_tex_de_thi_omits_answers(tmp_path: Path) -> None:
 def test_render_exam_tex_dap_an_includes_solution(tmp_path: Path) -> None:
     templates = tmp_path / "templates"
     templates.mkdir()
-    src = Path(__file__).resolve().parents[1] / "templates" / "exam.tex.j2"
+    src = Path(__file__).resolve().parents[2] / "templates" / "exam.tex.j2"
     templates.joinpath("exam.tex.j2").write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
 
     tex = ge.render_exam_tex(

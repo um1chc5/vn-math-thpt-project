@@ -1,9 +1,20 @@
 id: luyen-tn-thpt
 label: Luyện tốt nghiệp THPT
 so_cau: 22
-ty_le: "40:30:20:10"
 thoi_gian: "90 phút"
-tieu_de: "ĐỀ LUYỆN TỐT NGHIỆP THPT"
+tieu_de: "KỲ THI TỐT NGHIỆP TRUNG HỌC PHỔ THÔNG NĂM 2025"
 paper: papers/thpt-qg.tex.j2
-item_style: trac-nghiem
-# QĐ 764 (từ 2025): 12 TN + 4 đúng/sai + 6 trả lời ngắn. Hiện ngân hàng chỉ bật TN 4 lựa chọn.
+header_style: thpt-qg
+ma_de: "0105"
+keep_order: true
+bank_paths:
+  - thpt/md0105
+department: "BỘ GIÁO DỤC VÀ ĐÀO TẠO"
+school: "ĐỀ THI CHÍNH THỨC"
+sections:
+  - kieu_cau: trac-nghiem
+    so_cau: 12
+  - kieu_cau: dung-sai
+    so_cau: 4
+  - kieu_cau: tra-loi-ngan
+    so_cau: 6

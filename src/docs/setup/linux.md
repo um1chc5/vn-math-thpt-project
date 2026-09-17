@@ -51,5 +51,5 @@ pip install -r requirements.txt
 ```bash
 which xelatex latexmk
 fc-list :lang=vi | head
-python3 src/scripts/generate_exam.py --help
+python3 src/scripts/generate/generate_exam.py --help
 ```

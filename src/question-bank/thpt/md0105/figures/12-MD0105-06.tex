@@ -1,0 +1,12 @@
+\begin{tikzpicture}[line join=round, line cap=round,thick,scale=0.6]
+\coordinate (vtv) at (0.5,3);
+\coordinate (A) at (0,0);
+\coordinate (B) at (-1.5,-1);
+\coordinate (C) at (2,-1);
+\coordinate (A') at ($(A)+(vtv)$);
+\coordinate (B') at ($(B)+(vtv)$);
+\coordinate (C') at ($(C)+(vtv)$);
+\draw(B')--(B)--(C)--(C')--(A')--(B')--(C');
+\draw[dashed,thin](A')--(A)--(C) (A)--(B);
+\foreach \i/\g in {A'/90,A/30,B/180,C/0,C'/0,B'/180}{\draw[fill=white](\i) circle (1.5pt) ($(\i)+(\g:3mm)$) node[scale=0.6]{$\i$};}
+\end{tikzpicture}

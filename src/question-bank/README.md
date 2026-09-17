@@ -7,20 +7,8 @@ Mức độ: `nhan_biet` / `thong_hieu` / `van_dung` / `van_dung_cao`.
 Dạng đang soạn: `trac-nghiem`.
 
 ```
-lop11/
-  luong-giac.jsonl
-  day-so-cap-so.jsonl
-  ham-so-mu-logarit.jsonl
-  quan-he-vuong-goc.jsonl
-  xac-suat-co-dien.jsonl
-  ly-thuyet-do-thi.jsonl   # chuyên đề học tập, không bắt buộc
-lop12/
-  ung-dung-dao-ham.jsonl
-  nguyen-ham-tich-phan.jsonl
-  so-dac-trung-mau-ghep-nhom.jsonl
-  xac-suat-co-dieu-kien.jsonl
-  vecto-khong-gian.jsonl
-  hinh-hoc-oxyz.jsonl
+lop11/ … lop12/          # theo chương / chuyên đề thường ngày
+thpt/md0105/             # gói đề mẫu TN (questions.jsonl + figures/)
 ```
 
-File `.jsonl` tạo khi có câu. Schema: [question-bank.md](../docs/question-bank.md).
+File `.jsonl` tạo khi có câu. Exam-type có thể giới hạn gói bằng `bank_paths: [thpt/md0105]`. Schema: [question-bank.md](../docs/question-bank.md).

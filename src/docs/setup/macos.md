@@ -34,7 +34,7 @@ If a compile error names a missing `.sty`, install that package with `sudo tlmgr
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python3 src/scripts/generate_exam.py --help
+python3 src/scripts/generate/generate_exam.py --help
 ```
 
 ## PATH note
