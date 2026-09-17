@@ -68,7 +68,7 @@ src/docs/            hướng dẫn + onboarding
 src/configs/         profile.yaml, school.yaml, exam-types/
 src/question-bank/   câu hỏi JSONL
 src/templates/       exam.cls, papers, items
-src/scripts/
-src/tests/
+src/scripts/         tools (see scripts/README.md — grow by need)
+src/tests/           mirrors scripts when split
 src/output/          PDF đã sinh
 ```

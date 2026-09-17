@@ -16,6 +16,10 @@ Read details only when needed:
 
 Skills: [onboarding-teacher](skills/onboarding-teacher/SKILL.md), [checking-setup](skills/checking-setup/SKILL.md), [ingesting-question](skills/ingesting-question/SKILL.md), [generating-exam](skills/generating-exam/SKILL.md)
 
+## Scripts / tests
+
+Principles + predicted cases: [src/scripts/README.md](src/scripts/README.md). Do not invent empty script folders ahead of need.
+
 ## Language
 
 Speak Vietnamese with the teacher unless they write English. Keep questions short.

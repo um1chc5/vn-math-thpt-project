@@ -20,7 +20,7 @@ Onboarding **Khác** may paste LaTeX into these layers; keep 4-choice answers in
 
 Complex questions may include TikZ geometry, variation tables, custom tables, or external images directly in `question_latex`. Prefer storing that LaTeX with the question so it can be reused.
 
-Create a helper under `src/scripts/` only when the operation is repeatable (for example, generating a family of diagrams or importing many questions). For a one-off question, write the LaTeX directly instead of adding a one-use script.
+Create a helper under `src/scripts/` only when the operation is repeatable. Prefer grouping by role when a second similar tool appears (see `src/scripts/README.md`). For a one-off question, write the LaTeX directly instead of adding a one-use script.
 
 After PDF review, fix the owning source and regenerate:
 
