@@ -4,6 +4,10 @@ Repo này **chưa khóa** loại đề hay cây ngân hàng. Lần chat đầu, 
 
 Nếu `src/configs/profile.yaml` có `completed: true` thì bỏ qua bước này (trừ khi họ nói “làm lại onboarding”).
 
+## 0. Máy tính (ẩn — agent tự làm, không hỏi thầy/cô chọn)
+
+Trước menu dưới: kiểm tra OS + Python + thư viện pip + XeLaTeX / latexmk (skill `checking-setup`, [setup/](setup/README.md)). Thiếu gì thì **hỏi phép**, rồi agent cài giúp. Không dán lệnh rồi dừng. Họ từ chối → vẫn chạy menu, nhưng cảnh báo chưa ra PDF được.
+
 **Khác:** mọi câu đều có lựa chọn này. Họ có thể (1) mô tả bằng lời, hoặc (2) dán snippet LaTeX. Agent không bịa thêm loại đề / folder / header ngoài những gì họ đưa.
 
 - Header / trang → ghi vào `src/templates/exam.cls` (và paper `.tex.j2` nếu cần)
