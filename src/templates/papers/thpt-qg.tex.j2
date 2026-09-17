@@ -1,0 +1,36 @@
+\documentclass{exam}
+\usepackage{math-macros}
+
+\department{ {{ department }} }
+\school{ {{ school }} }
+\examtitle{ {{ examtitle }} }
+\subject{ {{ subject }} }
+\grade{ {{ grade }} }
+\duration{ {{ duration }} }
+\examdate{ {{ examdate }} }
+\setquestiontotal{ {{ questions|length }} }
+{% if answerkey %}
+\answerkeytrue
+{% else %}
+\answerkeyfalse
+{% endif %}
+
+\begin{document}
+\makeheader
+
+{% set ns = namespace(shown='') %}
+{% for q in questions %}
+{% if q._item != ns.shown %}
+{% if q._item == 'trac-nghiem' %}
+\section*{Phần I. Trắc nghiệm nhiều lựa chọn}
+{% elif q._item == 'dung-sai' %}
+\section*{Phần II. Đúng / sai}
+{% elif q._item == 'tra-loi-ngan' %}
+\section*{Phần III. Trả lời ngắn}
+{% endif %}
+{% set ns.shown = q._item %}
+{% endif %}
+{% include 'items/' ~ q._item ~ '.tex.j2' %}
+{% endfor %}
+
+\end{document}

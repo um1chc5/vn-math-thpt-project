@@ -1,0 +1,13 @@
+\begin{question}
+{{ q.question_latex }}
+\end{question}
+{% if show_answers %}
+\begin{dapan}
+{{ q.answer_latex }}
+\end{dapan}
+{% endif %}
+{% if show_solutions %}
+\begin{loigiai}
+{{ q.loi_giai_latex }}
+\end{loigiai}
+{% endif %}

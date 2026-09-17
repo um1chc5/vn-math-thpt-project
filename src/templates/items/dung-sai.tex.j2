@@ -1,0 +1,15 @@
+\begin{question}
+{{ q.question_latex }}
+\par\vspace{0.2em}
+{\small\textit{Với mỗi ý a, b, c, d, chọn đúng hoặc sai.}}
+\end{question}
+{% if show_answers %}
+\begin{dapan}
+{{ q.answer_latex }}
+\end{dapan}
+{% endif %}
+{% if show_solutions %}
+\begin{loigiai}
+{{ q.loi_giai_latex }}
+\end{loigiai}
+{% endif %}

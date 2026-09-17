@@ -1,0 +1,13 @@
+---
+description: Teacher-chat workflow for VN THPT exam generation. Always on.
+alwaysApply: true
+---
+
+Read and follow `AGENTS.md` in this project. Teachers work in chat and check PDFs.
+
+- First session / empty configs: `skills/onboarding-teacher/SKILL.md`
+- Setup / missing TeX: `skills/checking-setup/SKILL.md` (ask before sudo)
+- New questions: `skills/ingesting-question/SKILL.md`
+- Sinh đề: `skills/generating-exam/SKILL.md`
+
+Do not invent loại đề or bank folders. Do not ask the teacher to run terminal commands if you can run them (with permission).

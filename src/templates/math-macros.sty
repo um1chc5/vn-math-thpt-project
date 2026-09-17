@@ -1,0 +1,64 @@
+%% math-macros.sty — phím tắt Toán THPT (GDPT 2018)
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{math-macros}[2026/09/17 Macros Toan THPT]
+
+\RequirePackage{amsmath,amssymb,amsfonts,mathtools}
+
+% Phân số display
+\newcommand{\df}[2]{\dfrac{#1}{#2}}
+
+% Vectơ
+\newcommand{\vect}[1]{\overrightarrow{#1}}
+\renewcommand{\vec}[1]{\overrightarrow{#1}}
+\newcommand{\uvec}[1]{\overrightarrow{#1}}
+
+% Tập hợp / số
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\st}{\mid}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\oo}[2]{\left(#1\,;\,#2\right)}
+\newcommand{\cc}[2]{\left[#1\,;\,#2\right]}
+\newcommand{\oc}[2]{\left(#1\,;\,#2\right]}
+\newcommand{\co}[2]{\left[#1\,;\,#2\right)}
+
+% Độ, giá trị tuyệt đối
+\newcommand{\degree}{^{\circ}}
+\newcommand{\degC}{^{\circ}\mathrm{C}}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\brack}[1]{\left[#1\right]}
+
+% Giải tích
+\newcommand{\dx}{\,\mathrm{d}x}
+\newcommand{\dy}{\,\mathrm{d}y}
+\newcommand{\dt}{\,\mathrm{d}t}
+\newcommand{\du}{\,\mathrm{d}u}
+\newcommand{\diff}[2]{\dfrac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\ddiff}[2]{\dfrac{\mathrm{d}^{2}#1}{\mathrm{d}#2^{2}}}
+\newcommand{\ee}{\mathrm{e}}
+\DeclareMathOperator{\tg}{tg}
+\DeclareMathOperator{\cotg}{cotg}
+
+% Tổ hợp — kí hiệu Việt Nam: C_n^k , A_n^k
+\newcommand{\comb}[2]{\mathrm{C}_{#1}^{#2}}
+\newcommand{\perm}[2]{\mathrm{A}_{#1}^{#2}}
+\newcommand{\Prob}{\mathrm{P}}
+
+% Hình học
+\newcommand{\ang}[1]{\widehat{#1}}
+\newcommand{\dg}{^{\circ}}
+
+% Số phức
+\newcommand{\imunit}{\mathrm{i}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+
+% Xác suất có điều kiện
+\newcommand{\pcond}[2]{\mathrm{P}_{#2}\left(#1\right)}
+
+\endinput

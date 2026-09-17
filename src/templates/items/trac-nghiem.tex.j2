@@ -1,0 +1,20 @@
+\begin{question}
+{{ q.question_latex }}
+{% if q.get('choices') %}
+\begin{fourchoices}
+{% for c in q.get('choices') %}
+\item {{ c }}
+{% endfor %}
+\end{fourchoices}
+{% endif %}
+\end{question}
+{% if show_answers %}
+\begin{dapan}
+{{ q.answer_latex }}
+\end{dapan}
+{% endif %}
+{% if show_solutions %}
+\begin{loigiai}
+{{ q.loi_giai_latex }}
+\end{loigiai}
+{% endif %}

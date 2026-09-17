@@ -1,0 +1,37 @@
+\documentclass{exam}
+\usepackage{math-macros}
+
+\department{ {{ department }} }
+\school{ {{ school }} }
+\examtitle{ {{ examtitle }} }
+\subject{ {{ subject }} }
+\grade{ {{ grade }} }
+\duration{ {{ duration }} }
+\examdate{ {{ examdate }} }
+\setquestiontotal{ {{ questions|length }} }
+{% if answerkey %}
+\answerkeytrue
+{% else %}
+\answerkeyfalse
+{% endif %}
+
+\begin{document}
+\makeheader
+
+{% for q in questions %}
+\begin{question}
+{{ q.question_latex }}
+\end{question}
+{% if show_answers %}
+\begin{dapan}
+{{ q.answer_latex }}
+\end{dapan}
+{% endif %}
+{% if show_solutions %}
+\begin{loigiai}
+{{ q.loi_giai_latex }}
+\end{loigiai}
+{% endif %}
+{% endfor %}
+
+\end{document}

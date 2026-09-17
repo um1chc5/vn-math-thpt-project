@@ -1,0 +1,25 @@
+\documentclass{exam}
+\usepackage{math-macros}
+
+\department{ {{ department }} }
+\school{ {{ school }} }
+\examtitle{ {{ examtitle }} }
+\subject{ {{ subject }} }
+\grade{ {{ grade }} }
+\duration{ {{ duration }} }
+\examdate{ {{ examdate }} }
+\setquestiontotal{ {{ questions|length }} }
+{% if answerkey %}
+\answerkeytrue
+{% else %}
+\answerkeyfalse
+{% endif %}
+
+\begin{document}
+\makeheader
+
+{% for q in questions %}
+{% include 'items/' ~ q._item ~ '.tex.j2' %}
+{% endfor %}
+
+\end{document}
