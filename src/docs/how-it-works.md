@@ -43,7 +43,8 @@ If a `.tex` already sits in `src/output/`:
 cd vn-math-thpt-project
 export TEXINPUTS="$(pwd)/src/templates//:"
 latexmk -xelatex -outdir=src/output/lop12/giua-ki/2026-09-17-de-a \
+  -auxdir=src/output/lop12/giua-ki/2026-09-17-de-a/others -emulate-aux-dir \
   src/output/lop12/giua-ki/2026-09-17-de-a/de-a.tex
 ```
 
-`--no-compile` on the generator writes `.tex` only, then you run `latexmk` yourself.
+`--no-compile` on the generator writes `.tex` only, then you run `latexmk` yourself. The generator uses the same `-outdir` / `-auxdir=…/others` split so `.pdf` stays next to `.tex`.
