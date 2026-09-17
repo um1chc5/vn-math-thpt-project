@@ -2,6 +2,38 @@
 
 The teacher types in chat (or pastes a photo). You run tools. They check the PDF.
 
+## Use cases
+
+```mermaid
+flowchart LR
+    T(["Thầy / cô"]) <--> A["Agent trong chat"]
+
+    A --> C["Cấu hình"]
+    C --> C1["Onboarding"]
+    C --> C2["Sửa profile / header"]
+    C --> C3["Quản lý loại đề"]
+
+    A --> Q["Ngân hàng câu hỏi"]
+    Q --> Q1["Tạo / nhập câu"]
+    Q --> Q2["Xem / tìm câu"]
+    Q --> Q3["Sửa câu"]
+    Q --> Q4["Xóa câu"]
+
+    A --> E["Đề và đáp án"]
+    E --> E1["Tạo / sinh đề"]
+    E --> E2["Xem PDF"]
+    E --> E3["Sửa và sinh lại"]
+    E --> E4["Xóa output"]
+```
+
+Agent may write LaTeX directly for a question, including TikZ geometry, variation tables, tables, or `\includegraphics`. Save reusable work back to the question bank. Confirm with the teacher before deleting bank entries or replacing substantive authored content.
+
+During PDF review, revise the source rather than only patching generated `.tex`:
+
+- wrong question, answer, solution, diagram → question bank;
+- wrong count, duration, ratio → exam-type config;
+- wrong page or item layout → templates.
+
 ## First message in a new workspace
 
 1. Load `AGENTS.md`.

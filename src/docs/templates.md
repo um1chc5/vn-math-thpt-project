@@ -15,3 +15,15 @@ Add a new **item** when the *question UI* changes (MCQ vs short answer).
 Do not fork `exam.cls` for that — only if the header/page geometry itself changes (e.g. two-column).
 
 Onboarding **Khác** may paste LaTeX into these layers; keep 4-choice answers as a 2×2 grid unless they ask otherwise.
+
+## Agent-authored LaTeX and helper scripts
+
+Complex questions may include TikZ geometry, variation tables, custom tables, or external images directly in `question_latex`. Prefer storing that LaTeX with the question so it can be reused.
+
+Create a helper under `src/scripts/` only when the operation is repeatable (for example, generating a family of diagrams or importing many questions). For a one-off question, write the LaTeX directly instead of adding a one-use script.
+
+After PDF review, fix the owning source and regenerate:
+
+- question content or diagram → question bank;
+- paper/item appearance → templates;
+- exam composition → exam-type config or generator.

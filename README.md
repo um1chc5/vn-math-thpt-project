@@ -1,14 +1,44 @@
 # vn-math-thpt-project
 
-Sinh đề Toán THPT → XeLaTeX PDF. Teachers work in **chat**; agents follow [AGENTS.md](AGENTS.md).
+<p align="center">
+  <img alt="Windows" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white">
+  <img alt="macOS" src="https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white">
+  <img alt="Linux" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black">
+</p>
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="XeLaTeX" src="https://img.shields.io/badge/XeLaTeX-008080?style=for-the-badge&logo=latex&logoColor=white">
+  <img alt="Jinja" src="https://img.shields.io/badge/Jinja-B41717?style=for-the-badge&logo=jinja&logoColor=white">
+  <img alt="JSONL" src="https://img.shields.io/badge/Ngân_hàng-JSONL-2088FF?style=for-the-badge&logo=json&logoColor=white">
+  <img alt="PDF" src="https://img.shields.io/badge/Đầu_ra-PDF-B30B00?style=for-the-badge&logo=adobeacrobatreader&logoColor=white">
+</p>
 
-**Start here:** [src/docs/onboarding.md](src/docs/onboarding.md) — chọn vai trò (giáo viên trường / gia sư / cả hai), loại đề, cây ngân hàng. `exam-types/` và `question-bank/` bắt đầu **trống**.
+Sinh đề Toán THPT → **PDF XeLaTeX**. Thầy/cô làm việc trong **chat**; agent theo [AGENTS.md](AGENTS.md). Không cần gõ terminal.
 
-Jinja fills `.tex`; it does not make HTML. [src/docs/how-it-works.md](src/docs/how-it-works.md)
+**Bắt đầu:** [src/docs/onboarding.md](src/docs/onboarding.md) — chọn vai trò (giáo viên trường / gia sư / cả hai), loại đề, cây ngân hàng. `exam-types/` và `question-bank/` bắt đầu **trống**.
+
+## Cách vận hành (làm đề)
+
+Onboarding chỉ chạy lần đầu. Sau đó, thầy/cô cùng agent bổ sung ngân hàng, sinh đề và review PDF theo vòng lặp.
+
+```mermaid
+flowchart LR
+  A["Onboarding<br/>(một lần)"]
+  B["Thêm câu hỏi"]
+  C["Question Bank"]
+  D["Sinh đề"]
+  E["Review PDF"]
+
+  A --> B --> C --> D --> E
+  E -->|"Chỉnh sửa"| B
+  E -->|"Tạo đề khác"| D
+```
+
+Chi tiết: [vòng đời làm đề](src/docs/chat-workflow.md) · [pipeline kỹ thuật](src/docs/how-it-works.md) · [các lớp template](src/docs/templates.md).
 
 ## Setup
 
-[src/docs/setup/](src/docs/setup/README.md). Or tell the agent: “cài giúp TeX”.
+[src/docs/setup/](src/docs/setup/README.md) — Windows / macOS / Linux. Hoặc bảo agent: “cài giúp TeX”.
 
 ```bash
 python3 -m pip install -r requirements.txt
@@ -19,7 +49,7 @@ python3 -m pip install -r requirements.txt
 Lần đầu: “Mình là giáo viên trường / gia sư, …” — agent chạy onboarding.  
 Sau đó: “Ra đề …” — PDF trong `src/output/`.
 
-## CLI (after onboarding created a loại đề)
+## CLI (sau khi onboarding đã có loại đề)
 
 ```bash
 python3 src/scripts/generate_exam.py \
@@ -34,11 +64,11 @@ python3 src/scripts/generate_exam.py \
 ## Layout
 
 ```
-src/docs/            guides + onboarding
-src/configs/         profile.yaml, school.yaml, exam-types/ (empty until chosen)
-src/question-bank/   empty until onboarding
+src/docs/            hướng dẫn + onboarding
+src/configs/         profile.yaml, school.yaml, exam-types/
+src/question-bank/   câu hỏi JSONL
 src/templates/       exam.cls, papers, items
 src/scripts/
 src/tests/
-src/output/
+src/output/          PDF đã sinh
 ```

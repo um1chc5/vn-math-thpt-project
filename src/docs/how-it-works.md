@@ -15,6 +15,10 @@ src/output/lop12/giua-ki/2026-09-17-de-a/*.tex
 same folder → PDF
 ```
 
+The bank entry can contain rich LaTeX, not only plain text: TikZ drawings, variation tables, tabular data, and references to image assets. The agent may author or repair those snippets before running the same pipeline.
+
+`src/output/` is generated output. If review finds a problem, update the bank, config, or template and regenerate so the correction remains reusable.
+
 ## Why Jinja at all?
 
 `exam.cls` cannot loop over a JSON question bank. Something has to turn “12 random questions + school name + đáp án on/off” into a `.tex` file.

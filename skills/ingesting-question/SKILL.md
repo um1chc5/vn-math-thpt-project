@@ -20,6 +20,8 @@ Write JSONL under the bank layout from onboarding (`src/question-bank/…`). Sch
 
 Optional: `kieu_cau` = `tu-luan` | `trac-nghiem` | `dung-sai` | `tra-loi-ngan`. MCQ may include `choices`.
 
+`question_latex` may include TikZ, variation tables, tabular data, or `\includegraphics`. The agent may author these directly. Keep related image assets with the selected bank layout.
+
 Use authentic THPT Vietnamese, not translated English. Escape LaTeX backslashes in JSON.
 
-Show the teacher the stem + đáp án in chat before appending the file if the source was a photo (OCR can lie).
+Show the teacher the stem + đáp án in chat before appending when the source was a photo (OCR can lie) or the agent supplied substantive missing content. After PDF review, save accepted corrections back to this bank entry.
