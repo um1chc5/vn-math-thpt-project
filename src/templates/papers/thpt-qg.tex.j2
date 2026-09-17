@@ -1,13 +1,15 @@
 \documentclass{exam}
 \usepackage{math-macros}
 
-\department{ {{ department }} }
-\school{ {{ school }} }
-\examtitle{ {{ examtitle }} }
-\subject{ {{ subject }} }
-\grade{ {{ grade }} }
-\duration{ {{ duration }} }
-\examdate{ {{ examdate }} }
+\department{{ '{' ~ department ~ '}' }}
+\school{{ '{' ~ school ~ '}' }}
+\teacher{{ '{' ~ (teacher | default('')) ~ '}' }}
+\topic{{ '{' ~ (topic | default('')) ~ '}' }}
+\examtitle{{ '{' ~ examtitle ~ '}' }}
+\subject{{ '{' ~ subject ~ '}' }}
+\grade{{ '{' ~ grade ~ '}' }}
+\duration{{ '{' ~ duration ~ '}' }}
+\examdate{{ '{' ~ examdate ~ '}' }}
 \setquestiontotal{ {{ questions|length }} }
 {% if answerkey %}
 \answerkeytrue

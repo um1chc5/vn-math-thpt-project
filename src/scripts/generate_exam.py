@@ -229,9 +229,36 @@ def load_school(root: Path) -> dict:
     return load_yaml(path) if path.is_file() else {}
 
 
+def load_tutor(root: Path) -> dict:
+    path = src_dir(root) / "configs" / "tutor.yaml"
+    return load_yaml(path) if path.is_file() else {}
+
+
+def _nonempty(*vals: object, default: str = "") -> str:
+    for v in vals:
+        if v is None:
+            continue
+        s = str(v).strip()
+        if s:
+            return s
+    return default
+
+
 def load_exam_type(root: Path, loai_de: str) -> dict:
     path = src_dir(root) / "configs" / "exam-types" / f"{loai_de}.yaml"
     return load_yaml(path)
+
+
+def topic_label(questions: list[dict]) -> str:
+    names: list[str] = []
+    seen: set[str] = set()
+    for q in questions:
+        name = _nfc(str(q.get("chuong") or q.get("chuyen_de") or ""))
+        key = _norm(name)
+        if name and key not in seen:
+            seen.add(key)
+            names.append(name)
+    return "; ".join(names)
 
 
 def output_dir_for(
@@ -426,6 +453,7 @@ def main(argv: list[str] | None = None) -> int:
     root = project_root()
     bank_dir = src_dir(root) / "question-bank"
     school = load_school(root)
+    tutor = load_tutor(root)
     profile: dict = load_exam_type(root, args.loai_de) if args.loai_de else {}
 
     so_cau = args.so_cau if args.so_cau is not None else profile.get("so_cau")
@@ -436,9 +464,10 @@ def main(argv: list[str] | None = None) -> int:
     ty_le = parse_ty_le(str(ty_le_text)) if ty_le_text else None
     tieu_de = args.tieu_de or profile.get("tieu_de") or "ĐỀ KIỂM TRA"
     thoi_gian = args.thoi_gian or profile.get("thoi_gian") or "90 phút"
-    truong = args.truong or school.get("truong") or "TRƯỜNG THPT VÍ DỤ"
-    so_gd = args.so_gd or school.get("so_gd") or "SỞ GIÁO DỤC VÀ ĐÀO TẠO"
-    mon = args.mon or school.get("mon") or "Toán"
+    truong = _nonempty(args.truong, school.get("truong"))
+    teacher = _nonempty(tutor.get("ho_ten_gv"), school.get("ho_ten_gv"))
+    so_gd = _nonempty(args.so_gd, school.get("so_gd"))
+    mon = _nonempty(args.mon, school.get("mon"), tutor.get("mon"), default="Toán")
 
     questions = load_questions(bank_dir, args.lop, args.chuong)
     selected = select_questions(
@@ -453,6 +482,8 @@ def main(argv: list[str] | None = None) -> int:
     meta_base = {
         "school": _escape_meta(str(truong)),
         "department": _escape_meta(str(so_gd)),
+        "teacher": _escape_meta(str(teacher)),
+        "topic": _escape_meta(topic_label(selected)),
         "subject": _escape_meta(str(mon)),
         "grade": args.lop,
         "duration": _escape_meta(str(thoi_gian)),

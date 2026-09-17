@@ -11,4 +11,8 @@ Skip if `src/configs/profile.yaml` has `completed: true`, unless they ask to red
 
 Do **not** create 15-phut / giua-ki / thpt-qg YAML or `lop10/` folders unless they chose those options.
 
-After choices: write `profile.yaml`, header yaml, only the exam-type files they named, empty bank folders that match the layout. Summarize in chat.
+Every menu item has **Khác**: they may describe in words **or** paste LaTeX. Map paste to the right layer (`exam.cls` header/page, `papers/` exam shape, `items/` one-question UI). Do not invent the rest.
+
+Four-choice MCQ is a **2×2 grid** by default (`\choicegrid` / `fourchoices` in `exam.cls`).
+
+After choices: write `profile.yaml`, header yaml, only the exam-type files they named, empty bank folders that match the layout. Apply any Khác LaTeX they pasted. Summarize in chat.

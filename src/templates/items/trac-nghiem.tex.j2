@@ -1,11 +1,16 @@
 \begin{question}
 {{ q.question_latex }}
 {% if q.get('choices') %}
+{% set ch = q.choices %}
+{% if ch|length == 4 %}
+\choicegrid{ {{ ch[0] }} }{ {{ ch[1] }} }{ {{ ch[2] }} }{ {{ ch[3] }} }
+{% else %}
 \begin{fourchoices}
-{% for c in q.get('choices') %}
+{% for c in ch %}
 \item {{ c }}
 {% endfor %}
 \end{fourchoices}
+{% endif %}
 {% endif %}
 \end{question}
 {% if show_answers %}
