@@ -37,9 +37,16 @@
 _minted*/
 *.pyg
 
-# Generated TeX/PDF live in src/output/; keep the folder, ignore products
-src/output/*
+# Generated output: ignore by default
+src/output/**
 !src/output/.gitkeep
+!src/output/README.md
+
+# Example snapshots (test/demo): directories + .tex/.pdf only
+!src/output/lop12/
+!src/output/lop12/**/
+!src/output/lop12/**/*.tex
+!src/output/lop12/**/*.pdf
 
 # Python
 __pycache__/
