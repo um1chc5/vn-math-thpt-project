@@ -4,5 +4,6 @@ role:              # giao-vien-truong | gia-su | hon-hop | khac
 bank_layout:       # theo-chuong-gdpt | theo-chuyen-de | theo-hoc-sinh | mot-file | hon-hop
 muc_do_scheme:     # ma-tran-4 | de-tb-kho | khong | tu-dat
 header_style:      # truong | gia-su | toi-gian
+composition_mode:  # mac-dinh | moi-lan | tu-dat
 loai_de: []        # slug YAML đã tạo, ví dụ [15-phut, giua-ki]
 notes: ""

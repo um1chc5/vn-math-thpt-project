@@ -49,10 +49,11 @@ Ask only for what is still unknown:
 | Loại đề | Must match a YAML they already created, or create one now |
 | Phạm vi (chương / buổi / học sinh) | Never guess |
 | Số câu + mức độ (nếu họ dùng) | Override YAML |
+| Cơ cấu dạng câu | Dùng mặc định của loại đề; nếu profile chọn `moi-lan` thì hỏi số câu từng dạng |
 | Đề / đáp án / cả hai | `--mode` |
 | Tên đề (optional) | Output folder slug |
 
-Then run `src/scripts/generate_exam.py`. Point them at the PDF.
+Any product may mix trắc nghiệm, đúng/sai, trả lời ngắn, and tự luận. Never infer composition from an exam-type name. Then run or adapt the generation flow and point the teacher at the PDF.
 
 ## Intake (add questions)
 

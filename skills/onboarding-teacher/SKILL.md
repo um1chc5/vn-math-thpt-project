@@ -15,4 +15,10 @@ Every menu item has **Khác**: they may describe in words **or** paste LaTeX. Ma
 
 Four-choice MCQ is a **2×2 grid** by default (`\choicegrid` / `fourchoices` in `exam.cls`).
 
-After choices: write `profile.yaml`, header yaml, only the exam-type files they named, empty bank folders that match the layout. Apply any Khác LaTeX they pasted. Summarize in chat.
+After they choose question formats, ask how to compose them for **all** product types: a default composition for selected exam types, decide on each generation, or Khác. Ask counts per format only for exam types with a requested default. Do not special-case graduation exams.
+
+Do not ask the teacher to choose JSONL versus `.tex`, skills, or scripts.
+
+After choices: write `profile.yaml` (including `composition_mode`), header yaml, only the exam-type files they named, and empty bank folders that match the layout. Store any default composition with its exam-type config; do not infer it from the exam-type name. Apply any Khác LaTeX they pasted.
+
+Summarize in chat, then mention once that they may send text, images, or LaTeX; geometry, variation tables, and long solutions are supported and the agent will choose suitable storage.
