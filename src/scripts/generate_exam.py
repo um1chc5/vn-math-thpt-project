@@ -327,6 +327,8 @@ def render_exam_tex(
 
 def compile_tex(tex_path: Path, templates_dir: Path, out_dir: Path) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
+    aux_dir = out_dir / "others"
+    aux_dir.mkdir(parents=True, exist_ok=True)
     env = os.environ.copy()
     texinputs = str(templates_dir.resolve()) + "//:" + env.get("TEXINPUTS", "")
     env["TEXINPUTS"] = texinputs
@@ -336,6 +338,8 @@ def compile_tex(tex_path: Path, templates_dir: Path, out_dir: Path) -> Path:
         "-interaction=nonstopmode",
         "-file-line-error",
         f"-outdir={out_dir}",
+        f"-auxdir={aux_dir}",
+        "-emulate-aux-dir",
         str(tex_path),
     ]
     try:
@@ -346,7 +350,9 @@ def compile_tex(tex_path: Path, templates_dir: Path, out_dir: Path) -> Path:
             f"hoặc biên dịch thủ công file {tex_path}."
         ) from exc
     except subprocess.CalledProcessError as exc:
-        raise RuntimeError(f"latexmk thất bại (mã {exc.returncode}). Xem log trong {out_dir}.") from exc
+        raise RuntimeError(
+            f"latexmk thất bại (mã {exc.returncode}). Xem log trong {aux_dir}."
+        ) from exc
 
     pdf = out_dir / f"{tex_path.stem}.pdf"
     if not pdf.is_file():

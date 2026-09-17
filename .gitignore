@@ -37,9 +37,11 @@
 _minted*/
 *.pyg
 
-# Generated TeX/PDF live in src/output/; keep the folder, ignore products
-src/output/*
+# Generated output: ignore by default (.tex/.pdf live here after compile)
+src/output/**
 !src/output/.gitkeep
+!src/output/README.md
+# latexmk puts junk in others/ next to each đề — still covered by ** above
 
 # Python
 __pycache__/
