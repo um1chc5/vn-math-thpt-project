@@ -13,7 +13,7 @@ Do **not** create 15-phut / giua-ki / thpt-qg YAML or `lop10/` folders unless th
 
 Every menu item has **Khác**: they may describe in words **or** paste LaTeX. Map paste to the right layer (`exam.cls` header/page, `papers/` exam shape, `items/` one-question UI). Do not invent the rest.
 
-Four-choice MCQ is a **2×2 grid** by default (`\choicegrid` / `fourchoices` in `exam.cls`).
+Four-choice MCQ is **one row** by default (`\choicerow` / `fourchoices`). Keep `\choicegrid` / `fourchoicesgrid` for optional 2×2 layout.
 
 After they choose question formats, ask how to compose them for **all** product types: a default composition for selected exam types, decide on each generation, or Khác. Ask counts per format only for exam types with a requested default. Do not special-case graduation exams.
 

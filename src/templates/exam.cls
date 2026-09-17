@@ -183,7 +183,15 @@
   \fi
 }
 
-% ABCD 2×2. Dùng \choiceA..\choiceD hoặc \begin{fourchoices}\item..\end{fourchoices}
+% ABCD mặc định: 1 hàng. Lưới 2×2 khi cần: \choicegrid hoặc fourchoicesgrid.
+\newcommand{\choicerow}[4]{%
+  \nopagebreak\vspace{0.08em}%
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}*{4}{>{\raggedright\arraybackslash}X}@{}}
+    \textbf{A.} #1 & \textbf{B.} #2 & \textbf{C.} #3 & \textbf{D.} #4
+  \end{tabularx}%
+  \par
+}
 \newcommand{\choicegrid}[4]{%
   \nopagebreak\vspace{0.08em}%
   \noindent
@@ -195,6 +203,22 @@
 }
 \newcounter{choiceitem}
 \newenvironment{fourchoices}{%
+  \par\addvspace{0.12em}%
+  \setcounter{choiceitem}{0}%
+  \def\item{%
+    \stepcounter{choiceitem}%
+    \ifcase\value{choiceitem}%
+    \or \noindent\begin{tabularx}{\linewidth}{@{}*{4}{>{\raggedright\arraybackslash}X}@{}}%
+      \textbf{A.}\hspace{0.35em}\ignorespaces
+    \or &\textbf{B.}\hspace{0.35em}\ignorespaces
+    \or &\textbf{C.}\hspace{0.35em}\ignorespaces
+    \or &\textbf{D.}\hspace{0.35em}\ignorespaces
+    \fi
+  }%
+}{%
+  \end{tabularx}\par
+}
+\newenvironment{fourchoicesgrid}{%
   \par\addvspace{0.12em}%
   \setcounter{choiceitem}{0}%
   \def\item{%

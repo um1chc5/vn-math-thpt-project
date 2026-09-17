@@ -10,7 +10,7 @@ Nếu `src/configs/profile.yaml` có `completed: true` thì bỏ qua bước nà
 - Hình dạng cả đề (1 list vs 3 phần) → `src/templates/papers/`
 - Giao diện một câu → `src/templates/items/`
 
-Trắc nghiệm 4 lựa chọn: **lưới 2×2 (A B / C D) mặc định**.
+Trắc nghiệm 4 lựa chọn: **một hàng A B C D mặc định**. Lưới 2×2 khi thầy/cô hoặc câu hỏi yêu cầu (`\choicegrid` / `choices_layout: grid`).
 
 ## 1. Bạn dạy ở đâu?
 
@@ -100,7 +100,7 @@ Tự luận · trắc nghiệm · đúng/sai · trả lời ngắn. Chỉ bật 
 
 | | Dạng |
 |--|------|
-| A | Trắc nghiệm 4 lựa chọn (lưới **2×2** mặc định) |
+| A | Trắc nghiệm 4 lựa chọn (**1 hàng** mặc định; lưới 2×2 khi cần) |
 | B | Đúng / sai |
 | C | Trả lời ngắn |
 | D | Tự luận |
@@ -124,7 +124,7 @@ Chỉ hỏi số câu từng dạng cho những loại đề mà họ muốn có
 2. Ghi header vào `school.yaml` / `tutor.yaml`. Nếu họ dán LaTeX header → cập nhật `exam.cls` (đừng bịa Sở/trường).
 3. Tạo **chỉ** YAML loại đề họ chọn; đừng seed 15-phut/giua-ki/thpt-qg nếu họ không xin. Paper LaTeX Khác → file trong `papers/`.
 4. Tạo cây folder ngân hàng đúng layout đã chọn (vẫn để trống file nếu chưa có câu).
-5. Item Khác → chỉ sửa/thêm file trong `items/`. TN 4 đáp án giữ lưới 2×2 trừ khi họ xin khác.
+5. Item Khác → chỉ sửa/thêm file trong `items/`. TN 4 đáp án giữ **1 hàng** trừ khi họ xin lưới 2×2.
 6. Ghi cách phối dạng câu vào `profile.yaml` (`composition_mode`). Nếu có cấu trúc mặc định, ghi vào config của đúng loại đề; không hardcode theo tên loại đề.
 7. Không hỏi giáo viên chọn JSONL / `.tex` / skill / script. Agent tự chọn cách lưu và chỉ bàn về script khi có thao tác lặp lại.
 8. Tóm tắt lại cho họ bằng tiếng Việt, một khối ngắn: vai trò, loại đề, cách phối dạng câu, chỗ để câu hỏi, chỗ ra PDF. Kết thúc bằng một câu:

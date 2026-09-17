@@ -2,8 +2,17 @@
 {{ q.question_latex }}
 {% if q.get('choices') %}
 {% set ch = q.choices %}
-{% if ch|length == 4 %}
+{% set layout = q.get('choices_layout', 'row') %}
+{% if ch|length == 4 and layout == 'grid' %}
 \choicegrid{ {{ ch[0] }} }{ {{ ch[1] }} }{ {{ ch[2] }} }{ {{ ch[3] }} }
+{% elif ch|length == 4 %}
+\choicerow{ {{ ch[0] }} }{ {{ ch[1] }} }{ {{ ch[2] }} }{ {{ ch[3] }} }
+{% elif layout == 'grid' %}
+\begin{fourchoicesgrid}
+{% for c in ch %}
+\item {{ c }}
+{% endfor %}
+\end{fourchoicesgrid}
 {% else %}
 \begin{fourchoices}
 {% for c in ch %}
