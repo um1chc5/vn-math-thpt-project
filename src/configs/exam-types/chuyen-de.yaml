@@ -1,0 +1,8 @@
+id: chuyen-de
+label: Đề theo chuyên đề
+so_cau: 10
+ty_le: "40:30:20:10"
+thoi_gian: "60 phút"
+tieu_de: "ĐỀ THEO CHUYÊN ĐỀ"
+paper: papers/exam.tex.j2
+item_style: trac-nghiem

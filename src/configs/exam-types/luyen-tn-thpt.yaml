@@ -1,0 +1,9 @@
+id: luyen-tn-thpt
+label: Luyện tốt nghiệp THPT
+so_cau: 22
+ty_le: "40:30:20:10"
+thoi_gian: "90 phút"
+tieu_de: "ĐỀ LUYỆN TỐT NGHIỆP THPT"
+paper: papers/thpt-qg.tex.j2
+item_style: trac-nghiem
+# QĐ 764 (từ 2025): 12 TN + 4 đúng/sai + 6 trả lời ngắn. Hiện ngân hàng chỉ bật TN 4 lựa chọn.

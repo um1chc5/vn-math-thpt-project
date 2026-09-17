@@ -1,5 +1,5 @@
-# Header đề — để trống đến khi onboarding. Agent/teacher điền.
+# Header đề — gia sư: không in Sở/trường. Tên GV lấy từ tutor.yaml / ho_ten_gv.
 truong: ""
 so_gd: ""
-ho_ten_gv: ""
+ho_ten_gv: "Vũ Vương An"
 mon: "Toán"
